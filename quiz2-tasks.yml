@@ -1,0 +1,29 @@
+- name: create user1
+  hosts: pod-mrofiq466-managed1
+  become: true
+  vars_files:
+    - secret.yml
+    - group_vars/managed1-host-mrofiq466.yml
+  tasks:
+    - name: task1
+      user:
+        name: "{{ item }}"
+        password: "{{pass | password_hash('sha512')}}"
+      with_items:
+        - "{{ list_user_ops_managed1 }}"
+        - "{{ list_user_dev_managed1 }}"
+
+- name: create user2
+  hosts: pod-mrofiq466-managed2
+  become: true
+  vars_files:
+    - secret.yml
+    - group_vars/managed2-host-mrofiq466.yml
+  tasks:
+    - name: task2
+      user:
+        name: "{{ item }}"
+        password: "{{pass | password_hash('sha512')}}"
+      with_items:
+        - "{{ list_user_ops_managed2 }}"
+        - "{{ list_user_dev_managed2 }}"
